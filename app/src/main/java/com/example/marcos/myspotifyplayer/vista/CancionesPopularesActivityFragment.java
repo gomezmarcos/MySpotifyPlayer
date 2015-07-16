@@ -52,7 +52,8 @@ public class CancionesPopularesActivityFragment extends Fragment {
         nombreBanda.setText(getActivity().getIntent().getStringExtra("name"));
         ImageView fotoBanda = (ImageView) rootView.findViewById(R.id.image_foto);
         String photoUrl = getActivity().getIntent().getStringExtra("photoUrl");
-        Picasso.with(getActivity()).load(photoUrl).into(fotoBanda);
+        if (!photoUrl.isEmpty())
+            Picasso.with(getActivity()).load(photoUrl).into(fotoBanda);
 
         canciones = (RecyclerView) rootView.findViewById(R.id.recyclerview_canciones);
         canciones.setHasFixedSize(true);
