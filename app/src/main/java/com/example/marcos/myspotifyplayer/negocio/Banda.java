@@ -1,4 +1,4 @@
-package com.example.marcos;
+package com.example.marcos.myspotifyplayer.negocio;
 
 /**
  * Created by marcos on 14/07/15.

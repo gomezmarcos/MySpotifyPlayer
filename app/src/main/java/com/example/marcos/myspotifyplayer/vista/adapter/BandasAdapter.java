@@ -1,13 +1,18 @@
-package com.example.marcos.myspotifyplayer;
+package com.example.marcos.myspotifyplayer.vista.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.marcos.Banda;
+import com.example.marcos.myspotifyplayer.CancionesPopularesActivity;
+import com.example.marcos.myspotifyplayer.R;
+import com.example.marcos.myspotifyplayer.negocio.Banda;
+import com.example.marcos.myspotifyplayer.vista.MainActivityFragment;
+import com.example.marcos.myspotifyplayer.vista.holder.BandaViewHolder;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -24,7 +29,7 @@ public class BandasAdapter extends RecyclerView.Adapter<ViewHolder> {
     private BandasAdapter(){}
 
     public BandasAdapter(Context context){
-        this.bandas = bandas == null ? new ArrayList<Banda>() : bandas;
+        this.bandas = new ArrayList<Banda>();
         this.context = context;
     }
 
@@ -32,8 +37,21 @@ public class BandasAdapter extends RecyclerView.Adapter<ViewHolder> {
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         ViewHolder resulViewHolder;
         View vista = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_banda, viewGroup, false);
+        vista.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int position = MainActivityFragment.listaBandas.getChildLayoutPosition(view);
+                Banda banda = bandas.get(position);
+                Intent songsIntent = new Intent(context, CancionesPopularesActivity.class);
+                songsIntent.putExtra("artista", banda.oid);
+                songsIntent.putExtra("photoUrl", banda.fotoUrl);
+                songsIntent.putExtra("name",banda.name);
+                context.startActivity(songsIntent);
+            }
+        });
 
-        resulViewHolder = new BandaPequenoCard(vista);
+        resulViewHolder = new BandaViewHolder(vista);
+
 
         return resulViewHolder;
     }
@@ -42,7 +60,7 @@ public class BandasAdapter extends RecyclerView.Adapter<ViewHolder> {
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
 
         Banda banda = bandas.get(i);
-        BandaPequenoCard card = (BandaPequenoCard) viewHolder;
+        BandaViewHolder card = (BandaViewHolder) viewHolder;
         card.nombre.setText(banda.name);
         if (!banda.fotoUrl.isEmpty())
             Picasso.with(context).load(banda.fotoUrl).into(card.foto);

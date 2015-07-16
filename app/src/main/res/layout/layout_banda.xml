@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="horizontal"
               android:padding="5dp"
@@ -7,7 +11,7 @@
 
     <ImageView
         android:id="@+id/image_foto"
-        android:src="@drawable/abc_tab_indicator_mtrl_alpha"
+        android:src="@drawable/abc_btn_radio_material"
         android:layout_width="100dp"
         android:layout_height="100dp"/>
 
@@ -20,3 +24,4 @@
 
 
 </LinearLayout>
+    </android.support.v7.widget.CardView>

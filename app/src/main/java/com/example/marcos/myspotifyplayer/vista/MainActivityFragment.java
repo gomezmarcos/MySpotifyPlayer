@@ -1,6 +1,5 @@
-package com.example.marcos.myspotifyplayer;
+package com.example.marcos.myspotifyplayer.vista;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -8,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -19,7 +17,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.marcos.Banda;
+import com.example.marcos.myspotifyplayer.R;
+import com.example.marcos.myspotifyplayer.negocio.Banda;
+import com.example.marcos.myspotifyplayer.vista.adapter.BandasAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,6 +36,7 @@ public class MainActivityFragment extends Fragment {
 
     private static final String LOG_TAG = MainActivityFragment.class.getSimpleName();
     BandasAdapter mBandasAdapter;
+    public static RecyclerView listaBandas;
 
     public MainActivityFragment() {
     }
@@ -46,41 +47,29 @@ public class MainActivityFragment extends Fragment {
 
         View vistaRaiz = (View) inflater.inflate(R.layout.fragment_main, container, false);
 
-        RecyclerView renglon = (RecyclerView) vistaRaiz.findViewById(R.id.lista_bandas);
-
-        renglon.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                Intent intent = new Intent(getActivity(), CancionesPopularesActivity.class);
-                intent.putExtra("bandId", "sasdf");
-                startActivityForResult(intent, 23);
-                return false;
-            }
-
-        });
-
         EditText nombre = (EditText) vistaRaiz.findViewById(R.id.text_buscar);
         nombre.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (KeyEvent.KEYCODE_ENTER == keyCode){
 
-                EditText v1 = (EditText) v;
-                String artista = v1.getText().toString();
-                mockBandas(artista);
+                    EditText v1 = (EditText) v;
+                    String artista = v1.getText().toString();
+                    mockBandas(artista);
+                    return true;
                 }
-                return true;
+                return false;
             }
         });
 
         mBandasAdapter = new BandasAdapter(getActivity());
         mockBandas("pearl jam");
-        RecyclerView listaBandas = (RecyclerView) vistaRaiz.findViewById(R.id.lista_bandas);
 
+        listaBandas = (RecyclerView) vistaRaiz.findViewById(R.id.lista_bandas);
         listaBandas.setHasFixedSize(true);
         listaBandas.setLayoutManager(new GridLayoutManager(getActivity(), 1));
-
         listaBandas.setAdapter(mBandasAdapter);
+
         mBandasAdapter.notifyDataSetChanged();
 
         return vistaRaiz;
